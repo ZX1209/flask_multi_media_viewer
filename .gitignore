@@ -1,5 +1,7 @@
 covers/
 covers2/
+peewee_db_get/names.db
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
