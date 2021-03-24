@@ -14,7 +14,7 @@ log.basicConfig(level=log.INFO)
 needupdate = True
 
 videopath = Path("../upside/")
-coverpath = Path("../flaskApp/covers")
+coverpath = Path("../covers")
 
 
 filelist = []

@@ -17,7 +17,7 @@ class Name(peewee.Model):
 
 
 class FilePath(peewee.Model):
-    f_name = peewee.ForeignKeyField(Name, backref="path")
+    f_name = peewee.ForeignKeyField(Name, backref="filepath")
 
     filepath = peewee.CharField()
 
@@ -27,7 +27,7 @@ class FilePath(peewee.Model):
 
 
 class CoverPath(peewee.Model):
-    f_name = peewee.ForeignKeyField(Name, backref="cover")
+    f_name = peewee.ForeignKeyField(Name, backref="coverpath")
 
     coverpath = peewee.CharField()
 
