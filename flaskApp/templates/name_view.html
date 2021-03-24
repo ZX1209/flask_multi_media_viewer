@@ -1,0 +1,114 @@
+{% extends 'layui-base.html' %}
+
+
+{% block title %}
+{% endblock %}
+
+{% block head %}
+<!-- //设置走最佳浏览器 -->
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<!-- //设置页面宽度等于设备宽度，并且不可以放大  -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<style>
+    body {
+        background-color: aliceblue;
+    }
+
+    .pic_div {
+        margin: 10px 10px 30px 10px;
+        /* padding: 3px 3px 3px 3px; */
+        width: 400px;
+        height: 300px;
+        background-color: white;
+        box-shadow: 0px 0px 3px 0px black
+    }
+
+    .name {
+        padding-top: 5px;
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .pictures {}
+
+    /* xiao */
+    @media screen and (max-width: 1000px) {
+        .gl-main {
+            display: inline-block;
+            width: 100%;
+        }
+
+        .pictures {
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .pic_div {
+            display: inline-block;
+        }
+
+
+    }
+
+    /* da */
+    @media screen and (min-width: 1500px) {
+        .gl-main {
+            width: 1500px;
+            margin: 10px auto;
+        }
+
+        .pic_div {
+            display: inline-table;
+        }
+
+        .pictures {
+            width: 1300px;
+            margin: 0 auto;
+        }
+
+    }
+</style>
+
+<script>
+    var navito = (url) => {
+        window.open("http://" + window.location.hostname + ":8000" + url, "videos");
+
+    };
+
+</script>
+{% endblock %}
+
+{% block before_body %}
+{% endblock %}
+
+
+{% block body %}
+
+<div class="gl-main">
+    <div class="pictures">
+
+        {% for item in videoItems %}
+
+        <div class="pic_div">
+            <a onclick="navito('{{ item.filepath }}');" target="videoplay">
+                <img lay-src="{{img_base_url}}/{{ item.name }}.jpg" width="400px" height="225px">
+                <h1 class="name">{{ item.name }}</h1>
+            </a>
+        </div>
+
+        {% endfor %}
+    </div>
+
+
+
+</div>
+
+
+
+
+{% endblock %}
+
+{% block after_body %}
+{% endblock %}

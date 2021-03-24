@@ -1,0 +1,19 @@
+{% extends 'layui-base.html' %}
+
+{% block body %}
+
+
+<video id="{{ name }}" width="800px" height="600px" controls preload="none" poster="{{img_base_url}}{{coverpath}}">
+    <source src="http://{{ ip }}:8000{{ filepath }}" type='video/mp4' />
+</video>
+<h1>
+    {{ name }}
+</h1>
+
+
+
+
+{% endblock %}
+
+{% block after_body %}
+{% endblock %}

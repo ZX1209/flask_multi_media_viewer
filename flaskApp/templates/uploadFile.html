@@ -1,0 +1,15 @@
+{% extends "layui-base.html" %}
+
+
+{% block title%}
+upload
+{% endblock %}
+    
+
+{% block body%}
+<form action="upload" method="POST" enctype=multipart/form-data>
+    <input type="file" name="the_file">
+    <button type="submit">确定</button>
+</form>
+{% endblock %}
+

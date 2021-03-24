@@ -1,0 +1,116 @@
+{% extends 'layui-base.html' %}
+
+{% macro icon_row_link(baseUrl,pathItem,picName) -%}
+<div class="layui-row">
+    <div class="layui-col-xs2 layui-col-xs-offset2" style="padding: 10px 0px;">
+        <a href="{{ baseUrl }}{{ pathItem }}">
+            <img src="/static/pictures/{{ picName }}" alt="no pic" width="200px" height="150px">
+        </a>
+
+    </div>
+    <div class="layui-col-xs5 " style="padding: 50px 0px;">
+        <a href="{{ baseUrl }}{{ pathItem }}">
+            <h1>
+                {{ pathItem.name }}
+            </h1>
+        </a>
+
+    </div>
+</div>
+{%- endmacro %}
+
+{% set unkonwFileIconName = 'unknown.svg' %}
+{% set yellowFolderIconName = 'folder-yellow.svg' %}
+
+
+{% block title %}
+{% endblock %}
+
+{% block head %}
+
+
+{% endblock %}
+
+{% block before_body %}
+{% endblock %}
+
+
+{% block body %}
+
+<div class="layui-main">
+
+
+    {% for item in childrens %}
+
+    {% if  item.isVideoFile() %}
+    <div class="layui-row">
+        <div class="layui-col-xs10 layui-col-xs-offset2" style="padding: 10px 0px;">
+            <video id="{{ item }}" width="800px" height="600px" controls preload="none"
+                poster="{{ url_for('static', filename='covers/') }}{{ item.stem }}.jpg">
+                <source src="{{ resourceUrl }}{{ item }}" type='video/mp4' />
+            </video>
+            <h1>
+                {{ item.name }}
+            </h1>
+        </div>
+    </div>
+
+
+    {% elif item.is_dir() %}
+    <!-- <div class="layui-row">
+        <div class="layui-col-xs2 layui-col-xs-offset2" style="padding: 10px 0px;">
+            <a href="{{ cwdUrl }}{{ item }}">
+                <img src="{{ url_for('static', filename='./pictures/folder-yellow.svg') }}" alt="no pic" width="200px"
+                    height="150px">
+            </a>
+
+        </div>
+        <div class="layui-col-xs5 " style="padding: 50px 0px;">
+            <a href="{{ cwdUrl }}{{ item }}">
+                <h1>
+                    {{ item.name }}
+                </h1>
+            </a>
+
+        </div>
+    </div> -->
+    {{ icon_row_link(cwdUrl,item,yellowFolderIconName) }}
+
+
+    {% else %}
+
+    <!-- <div class="layui-row">
+        <div class="layui-col-xs3 layui-col-xs-offset2" style="padding: 10px 0px;">
+            <a href="{{ cwdUrl }}{{ item }}">
+                <img src="{{ url_for('static', filename='./pictures/unknown.svg') }}" alt="no pic" width="200px"
+                    height="150px">
+            </a>
+
+        </div>
+        <div class="layui-col-xs5 " style="padding: 50px 0px;">
+            <a href="{{ cwdUrl }}{{ item }}">
+                <h1>
+                    {{ item.name }}
+                </h1>
+            </a>
+
+        </div>
+    </div> -->
+
+    {{ icon_row_link(resourceUrl,item,unkonwFileIconName) }}
+
+    {% endif %}
+
+
+    {% endfor %}
+
+
+</div>
+
+
+
+
+{% endblock %}
+
+{% block after_body %}
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends 'layui-base.html' %}
+
+
+{% block title %}
+{% endblock %}
+
+{% block head %}
+<!-- //设置走最佳浏览器 -->
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<!-- //设置页面宽度等于设备宽度，并且不可以放大  -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" href="{{url_for('static',filename='css/page_view.css')}}">
+
+<script>
+    var navito = (url) => {
+        window.open("http://" + window.location.hostname + ":8000" + url, "videos");
+
+    };
+
+    var topage = (page) => {
+        window.location.href = "/page_view/" + page
+    }
+
+    var v_cur_page = {{ cur_page }}
+
+</script>
+{% endblock %}
+
+{% block before_body %}
+{% endblock %}
+
+
+{% block body %}
+
+<div class="gl-main">
+    <div class="pictures">
+
+        {% for item in videoItems %}
+
+        <div class="pic_div">
+            <a onclick="navito('{{ item.filepath }}');" target="videoplay">
+                <img lay-src="{{img_base_url}}/{{ item.name }}.jpg" width="300px" height="170px">
+                <h1 class="name">{{ item.name }}</h1>
+            </a>
+        </div>
+
+        {% endfor %}
+    </div>
+
+</div>
+
+
+<div class="top_nav">
+    <div class="layui-row">
+        <div class="layui-col-sm2">
+            <i class="layui-icon layui-icon-home"></i>
+        </div>
+        <div class="layui-col-sm2"></div>
+        <div class="layui-col-sm2"></div>
+        <div class="layui-col-sm2"></div>
+        <div class="layui-col-sm2"></div>
+    </div>
+</div>
+
+<div class="bottom_nav">
+    <div class="layui-row ">
+        <div class="layui-col-xs6">
+            empty
+        </div>
+
+        <div class="layui-col-xs3">
+
+            <div class="prev_page" onclick="topage({{ cur_page }}-1);">
+                <i class="layui-icon layui-icon-up"></i>
+            </div>
+        </div>
+
+        <div class="layui-col-xs3">
+
+            <div class="next_page" onclick="topage({{ cur_page }}+1);">
+                <i class="layui-icon layui-icon-down"></i>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="layui-row layui-col-space10">
+
+        <div class="layui-col-md12">
+
+            <input type="text" name="page" required lay-verify="required" placeholder="{{ cur_page }}"
+                autocomplete="off" class="layui-input" id="gotopage">
+        </div>
+
+        <!-- <div class="layui-col-sm3 ">
+                <button class="layui-btn" onclick="topage(document.getElementById('gotopage').value);">跳转</button>
+            </div> -->
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}
+
+{% block after_body %}
+{% endblock %}
