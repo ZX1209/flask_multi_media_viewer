@@ -2,10 +2,13 @@
 
 import peewee
 import datetime
+import json
 
 db = peewee.SqliteDatabase(
     "/home/gl/Projects/flask_multi_media_viewer/peewee_db_get/names.db"
 )
+
+tagDataFilePath = "/home/gl/Projects/flask_multi_media_viewer/peewee_db_get/tagdata.json"
 
 
 class Name(peewee.Model):
@@ -47,6 +50,21 @@ class CoverPath(peewee.Model):
         db_table = "coverpaths"  # file name to path,no repeat
 
 
+def export_tag_data(filepath):
+    tagsData = dict()
+    for tag in Tag.select():
+        tagsData[tag.tagname] = list(map(lambda n: n["name"], tag.names.dicts()))
+    with open(filepath, "w") as fp:
+        json.dump(tagsData, fp, skipkeys=True)
+
+
+def import_tag_data(filepath):
+    importData = None
+    with open(filepath, "r") as fp:
+        importData = json.load(fp)
+    print(importData)
+
+
 def init_db():
 
     Name.drop_table()
@@ -62,4 +80,5 @@ def init_db():
     Tag.create_table()
 
     tagname = Tag.names.get_through_model()
+    tagname.drop_table()
     tagname.create_table()
