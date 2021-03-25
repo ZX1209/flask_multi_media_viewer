@@ -1,3 +1,7 @@
+import sys
+
+sys.path.insert(0, "../peewee_db_get/")
+
 from flask import (
     Flask,
     current_app,
@@ -15,17 +19,21 @@ from werkzeug.utils import secure_filename
 # from pathUtility import basePath, curPath
 from pathlib import Path
 
-from redis import StrictRedis
 from get_local_addr import get_lan_ip
+from peewee_api_names import NameApi_1
 
-host = 'localhost'
+
+api = NameApi_1()
+
+host = "localhost"
 port = 6379
 
-# redis 取出的结果默认是字节，我们可以设定 decode_responses=True 改成字符串。
-redis = StrictRedis(host=host, port=port,decode_responses=True)
+# # redis 取出的结果默认是字节，我们可以设定 decode_responses=True 改成字符串。
+# redis = StrictRedis(host=host, port=port, decode_responses=True)
 
 
 img_base_url = "/static/covers2"
+
 
 def isVideoFile(self):
     return self.suffix == ".mp4"
@@ -39,7 +47,7 @@ basePath = Path("../")
 
 import logging as log
 
-log.basicConfig(level=log.DEBUG)
+log.basicConfig(level=log.INFO)
 log.debug("this is a demo massage")
 
 app = Flask(__name__)
@@ -67,63 +75,38 @@ def sortedFileList(dirPath):
 
 @app.route("/")
 def homepage():
-    return redirect(url_for("videoCoversView"))
-
-@app.route("/test/video_page")
-def test_video_page():
-    return render_template("video_page.html",ip = get_lan_ip(),item="/media/gl/移动硬盘-高领/gl/archive/category-Documentary/av/1080P_4000K_282299201.mp4")
+    return redirect(url_for("all_video_view"))
 
 
-@app.route("/video_page/<string:name>")
-def video_page(name):
-    paths = redis.hgetall(name)
-    return render_template("video_page.html",ip = get_lan_ip(),name=name,filepath=paths['filepath'],coverpath=paths['coverpath'],img_base_url=img_base_url)
-
-
-
-@app.route("/videoCoversView")
-def videoCoversView():
+@app.route("/all_video_view")
+def all_video_view():
     end = 500
+    videoItems = api.get_items()
 
-    names = redis.lrange("names",0,end)
-    coverpaths = redis.lrange("coverpaths",0,end)
-    filepaths = redis.lrange("filepaths",0,end)
-
-    videoItems = [{"name":names[i],"coverpath":coverpaths[i],"filepath":filepaths[i]} for i in range(len(names))]
-
-    return render_template("name_view.html",videoItems=videoItems,img_base_url = "/static/covers2/")
+    return render_template(
+        "name_view.html", videoItems=videoItems, img_base_url="/static/covers"
+    )
 
 
 # 以页面形式展示
+@app.route("/page_view/")
 @app.route("/page_view/<int:page>")
-def page_view(page):
+def page_view(page=1):
     page_len = 12
-    maxpage = redis.llen("names")
 
-    start = page_len*(page-1)
-    end = page_len*(page) - 1
+    start = page_len * (page - 1)
+    end = page_len * (page) - 1
 
-    log.debug((start,end))
+    log.debug((start, end))
 
-    if page*page_len > maxpage:
-        start = maxpage - page_len  if maxpage - page_len>= 0 else  0
-        end = maxpage -1
-        page = maxpage//page_len
+    videoItems = api.get_items(start, end)
 
-
-    names = redis.lrange("names",start,end)
-    coverpaths = redis.lrange("coverpaths",start,end)
-    filepaths = redis.lrange("filepaths",start,end)
-
-    videoItems = [{"name":names[i],"coverpath":coverpaths[i],"filepath":filepaths[i]} for i in range(len(names))]
-
-    return render_template("pages_view.html",videoItems=videoItems,img_base_url = "/static/covers2/",cur_page=page)
-
-
-
-
-    pass 
-
+    return render_template(
+        "pages_view.html",
+        videoItems=videoItems,
+        img_base_url="/static/covers",
+        cur_page=page,
+    )
 
 
 @app.route("/resources/", defaults={"var": ""})
@@ -145,38 +128,38 @@ def getRes(var):
 
 # tag: tags
 @app.route("/api/v1/add_tag")
-def add_tag(name=None,tag=None):
+def add_tag(name=None, tag=None):
     if name is None:
-        name = request.args['name']
+        name = request.args["name"]
     if tag is None:
-        tag = request.args['tag']
-    
-    redis.sadd("tags",tag)
-    redis.rpush(tag+"_names",name)
+        tag = request.args["tag"]
+
+    redis.sadd("tags", tag)
+    redis.rpush(tag + "_names", name)
 
     return 1
+
 
 @app.route("/api/v1/name_tags")
 def name_tags(name=None):
     if name is None:
-        name = request.args['name']
-    
-    tmp_tags = redis.smembers(name+"_tags")
+        name = request.args["name"]
+
+    tmp_tags = redis.smembers(name + "_tags")
 
     return jsonify(tmp_tags)
+
 
 @app.route("/api/v1/tag_names")
 def tag_names(tag=None):
     if tag is None:
-        tag = request.args['tag']
-    
-    tmp_names = redis.lrange(tag+"_names",0,-1)
+        tag = request.args["tag"]
+
+    tmp_names = redis.lrange(tag + "_names", 0, -1)
 
     return jsonify(tmp_names)
 
 
-
-
-
 if __name__ == "__main__":
+    print(get_lan_ip())
     app.run(debug=True, host="0.0.0.0", port=5001)

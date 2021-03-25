@@ -1,4 +1,4 @@
-{% extends 'layui-base.html' %}
+{% extends 'page_base.html' %}
 
 
 {% block title %}
@@ -29,55 +29,33 @@
 {% endblock %}
 
 {% block before_body %}
+
 {% endblock %}
 
 
 {% block body %}
 
-<div class="gl-main">
-    <div class="pictures">
 
-        {% for item in videoItems %}
+<div class="pictures">
 
-        <div class="pic_div">
-            <a onclick="navito('{{ item.filepath }}');" target="videoplay">
-                <img lay-src="{{img_base_url}}/{{ item.name }}.jpg" width="300px" height="170px">
-                <h1 class="name">{{ item.name }}</h1>
-            </a>
-        </div>
-
-        {% endfor %}
-    </div>
-
+    {% for item in videoItems %}
+    {{ video_card(item) }}
+    {% endfor %}
 </div>
 
 
-<div class="top_nav">
-    <div class="layui-row">
-        <div class="layui-col-sm2">
-            <i class="layui-icon layui-icon-home"></i>
-        </div>
-        <div class="layui-col-sm2"></div>
-        <div class="layui-col-sm2"></div>
-        <div class="layui-col-sm2"></div>
-        <div class="layui-col-sm2"></div>
-    </div>
-</div>
 
 <div class="bottom_nav">
     <div class="layui-row ">
-        <div class="layui-col-xs6">
-            empty
-        </div>
 
-        <div class="layui-col-xs3">
+        <div class="layui-col-xs5">
 
             <div class="prev_page" onclick="topage({{ cur_page }}-1);">
                 <i class="layui-icon layui-icon-up"></i>
             </div>
         </div>
 
-        <div class="layui-col-xs3">
+        <div class="layui-col-xs5">
 
             <div class="next_page" onclick="topage({{ cur_page }}+1);">
                 <i class="layui-icon layui-icon-down"></i>
@@ -88,15 +66,15 @@
 
     <div class="layui-row layui-col-space10">
 
-        <div class="layui-col-md12">
+        <div class="layui-col-xs6">
 
             <input type="text" name="page" required lay-verify="required" placeholder="{{ cur_page }}"
                 autocomplete="off" class="layui-input" id="gotopage">
         </div>
 
-        <!-- <div class="layui-col-sm3 ">
-                <button class="layui-btn" onclick="topage(document.getElementById('gotopage').value);">跳转</button>
-            </div> -->
+        <div class="layui-col-xs4">
+            <button class="layui-btn" onclick="topage(document.getElementById('gotopage').value);">跳转</button>
+        </div>
 
 
     </div>

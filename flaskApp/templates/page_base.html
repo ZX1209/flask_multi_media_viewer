@@ -1,0 +1,268 @@
+{% macro video_card(item) -%}
+<div class="card_div">
+    <div class="pic_div" data="{{ item }}">
+        <a onclick="navito( '{{ item.filepath }}' );" target="videoplay">
+            <img class="poster" lay-src="{{img_base_url}}/{{ item.name }}.jpg" width="400px" height="225px">
+        </a>
+    </div>
+    <div class="name_div">
+        <h1 class="name">{{ item.name }}</h1>
+    </div>
+    <div class="tag_div">
+
+    </div>
+
+    <div class="action_div">
+
+        <span class="layui-breadcrumb" lay-separator="|">
+            <a href="">娱乐</a>
+            <a href="">八卦</a>
+            <a href="">体育</a>
+            <a href="">搞笑</a>
+            <a href="">视频</a>
+            <a href="">游戏</a>
+            <a href="">综艺</a>
+        </span>
+    </div>
+
+</div>
+{%- endmacro %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title%}{% endblock %}</title>
+
+
+    <link rel="stylesheet" href="{{url_for('static',filename='./layui/css/layui.css')}}">
+
+    <script src="{{url_for('static',filename='./layui/layui.all.js')}}"></script>
+
+    <!-- <script language="JavaScript" type="text/javascript" src="{{url_for('static',filename='jquery-3.3.1.js')}}"></script>
+
+        <link rel="stylesheet" href="{{url_for('static',filename='main.css')}}">
+
+        <script language="JavaScript" type="text/javascript" 
+        src="{{url_for('static',filename='main.js')}}"></script> -->
+    <!-- //设置走最佳浏览器 -->
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <!-- //设置页面宽度等于设备宽度，并且不可以放大  -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style>
+        body {
+            background-color: aliceblue;
+            width: 100%;
+        }
+
+
+
+
+        .card_div {
+            margin: 10px 10px 30px 10px;
+            /* padding: 3px 3px 3px 3px; */
+            width: 400px;
+
+            background-color: white;
+            box-shadow: 0px 0px 3px 0px black
+        }
+
+        .pic_div {}
+
+        .name_div {
+            height: 50px;
+            text-overflow: ellipsis;
+            overflow: scroll;
+            display: block;
+            margin: 2px;
+            height: 70px;
+        }
+
+        .name {
+            padding-top: 5px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+
+        .tag_div {
+            height: 50px;
+        }
+
+        .action_div {
+            height: 50px;
+        }
+
+        .pictures {}
+
+        .searchBox {
+
+            height: 50px;
+            width: 100px;
+
+            margin: 5px 10px 5px 10px;
+            padding: 2px 4px 2px 4px;
+            font-size: 20px;
+        }
+
+        .static_top {
+            position: fixed;
+            top: 0px;
+            width: 100%;
+        }
+
+        .place_div {
+            height: 150px;
+        }
+
+        /* xiao */
+        @media screen and (max-width: 800px) {
+            .gl-main {
+                display: inline-block;
+                width: 100%;
+            }
+
+            .pictures {
+                text-align: center;
+                margin: 0 auto;
+            }
+
+            .card_div {
+                display: inline-block;
+            }
+
+
+        }
+
+        @media screen and (min-width: 800px) and (max-width : 1300px) {
+            .gl-main {
+                display: inline-block;
+                width: 100%;
+            }
+
+            .pictures {
+                width: 900px;
+                margin: 0 auto;
+            }
+
+            .card_div {
+                display: inline-table;
+            }
+
+
+        }
+
+        /* da */
+        @media screen and (min-width: 1300px) {
+            .gl-main {
+                width: 1500px;
+                margin: 10px auto;
+            }
+
+            .card_div {
+                display: inline-table;
+            }
+
+            .pictures {
+                width: 1300px;
+                margin: 0 auto;
+            }
+
+        }
+    </style>
+
+    <script>
+        var navito = (url) => {
+            window.open("http://" + window.location.hostname + ":8000/" + url, "videos");
+
+        };
+        var minHeight = 225;
+        var minWidth = 400;
+
+
+        function img_size_suite() {
+            document.querySelectorAll("img.poster").forEach(element => {
+                if (window.innerWidth < 400) {
+                    minWidth = window.innerHeight - 40;
+                    minHeight = minWidth * (225 / 400)
+                }
+                element.width = minWidth;
+                element.height = minHeight;
+            });
+        }
+
+
+        window.onresize = img_size_suite
+        window.onload = img_size_suite
+
+
+    </script>
+    {% block head%}{% endblock %}
+
+</head>
+{% block before_body%}{% endblock %}
+
+<!-- <body background="{{url_for('static',filename='bg.jpg')}}"> -->
+
+<body>
+    <div class="navigation static_top" width="100%">
+
+        <ul class="layui-nav" lay-filter="">
+
+            <li class="layui-nav-item">
+                <a href="{{ url_for('page_view') }}">分页</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="{{ url_for('all_video_view') }}">全部</a>
+            </li>
+            <li class=" layui-nav-item">
+                <a href="javascript:;">标签</a>
+                <dl class="layui-nav-child">
+                    <!-- 二级菜单 -->
+                    <dd><a href="">移动模块</a></dd>
+                    <dd><a href="">后台模版</a></dd>
+                    <dd><a href="">电商平台</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <input type="text" name="title" class="searchBox" required lay-verify="required" placeholder="搜索标签"
+                    autocomplete="off" class="layui-input">
+            </li>
+
+
+        </ul>
+    </div>
+    <div class="place_div"></div>
+    <div class="gl-main">
+        {% block body%}
+        {% endblock %}
+
+    </div>
+    <div class="place_div"></div>
+
+
+
+
+    <script>
+        var form = layui.form;
+        form.render();
+
+        var element = layui.element;
+        element.init();
+
+        var layer = layui.layer;
+
+        layui.use('flow', function () {
+            var flow = layui.flow;
+            //当你执行这样一个方法时，即对页面中的全部带有lay-src的img元素开启了懒加载（当然你也可以指定相关img）
+            flow.lazyimg();
+        });
+    </script>
+</body>
+{% block after_body%}
+{% endblock %}
+
+</html>
