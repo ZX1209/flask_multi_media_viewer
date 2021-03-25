@@ -45,13 +45,15 @@ def record_name_path(rootPath):
                 )
                 tmp_coverpath.save()
 
-                log.info(("add", item.stem))
+                log.debug(("add", item.stem))
 
         except:
             continue
 
 
-if __name__ == "__main__":
+def gen_data():
+    """gen_data"""
+    global videopath, coverpath
     # video path args
     # cover path
     parser = argparse.ArgumentParser()
@@ -68,3 +70,7 @@ if __name__ == "__main__":
     # gen data
 
     record_name_path(videopath)
+
+
+if __name__ == "__main__":
+    gen_data()

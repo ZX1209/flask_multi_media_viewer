@@ -3,7 +3,9 @@
 import peewee
 import datetime
 
-db = peewee.SqliteDatabase("names.db")
+db = peewee.SqliteDatabase(
+    "/home/gl/Projects/flask_multi_media_viewer/peewee_db_get/names.db"
+)
 
 
 class Name(peewee.Model):
@@ -14,6 +16,15 @@ class Name(peewee.Model):
     class Meta:
         database = db
         db_table = "names"  # file name to path,no repeat
+
+
+class Tag(peewee.Model):
+    tagname = peewee.CharField()
+    names = peewee.ManyToManyField(Name, backref="tags")
+
+    class Meta:
+        database = db
+        db_table = "tags"  # file name to path,no repeat
 
 
 class FilePath(peewee.Model):
@@ -37,6 +48,7 @@ class CoverPath(peewee.Model):
 
 
 def init_db():
+
     Name.drop_table()
     Name.create_table()
 
@@ -46,6 +58,8 @@ def init_db():
     CoverPath.drop_table()
     CoverPath.create_table()
 
+    Tag.drop_table()
+    Tag.create_table()
 
-if __name__ == "__main__":
-    init_db()
+    tagname = Tag.names.get_through_model()
+    tagname.create_table()
