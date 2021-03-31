@@ -3,9 +3,11 @@
     - [x] name path map
     - [x] name coverpath map
     - [x] ffmpeg gen 
+    - [x] file time record
 - [ ] 视频服务器
     - [x] RangeHTTPServer in ./
 - [ ] 数据生成
+  - [ ] 封面数据生成,相对截图
 - [ ] 构建页面
 - [ ] 路径问题
 - [ ] 标签系统构建
@@ -26,3 +28,4 @@
   
 
 ## tag 建立
+import ,export

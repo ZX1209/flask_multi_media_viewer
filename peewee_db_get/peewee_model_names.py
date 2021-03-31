@@ -34,6 +34,10 @@ class FilePath(peewee.Model):
     f_name = peewee.ForeignKeyField(Name, backref="filepath")
 
     filepath = peewee.CharField()
+    ctime = peewee.DateField()  # formats="%Y-%m-%dT%H:%M:%S"
+    mtime = peewee.DateField()
+    atime = peewee.DateField()
+    size = peewee.IntegerField()
 
     class Meta:
         database = db
@@ -62,10 +66,19 @@ def import_tag_data(filepath):
     importData = None
     with open(filepath, "r") as fp:
         importData = json.load(fp)
+
+    for tagname in importData:
+        tmp_tag = Tag(tagname=tagname)
+        tmp_tag.save()
+
+        for name in importData[tagname]:
+            tmp_tag.names.add(Name.get(Name.name == name))
+
     print(importData)
 
 
 def init_db():
+    # export_tag_data(tagDataFilePath)
 
     Name.drop_table()
     Name.create_table()

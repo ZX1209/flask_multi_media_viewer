@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import os
+import time
 from pathlib import Path
 
 import logging as log
@@ -8,12 +9,13 @@ import argparse
 
 from peewee_model_names import CoverPath, Name, FilePath
 
-log.basicConfig(level=log.INFO)
+log.basicConfig(level=log.DEBUG)
 
 
 needupdate = True
 
-videopath = Path("../upside/")
+
+videopath = Path("../upside/tmp/pornhub")
 coverpath = Path("../covers")
 
 
@@ -37,7 +39,20 @@ def record_name_path(rootPath):
                 tmp_name = Name(name=item.stem)
                 tmp_name.save()
 
-                tmp_path = FilePath(filepath=item, f_name=tmp_name)
+                tmp_path = FilePath(
+                    filepath=item,
+                    f_name=tmp_name,
+                    ctime=time.strftime(
+                        "%Y-%m-%dT%H:%M:%S", time.localtime(item.stat().st_ctime)
+                    ),
+                    mtime=time.strftime(
+                        "%Y-%m-%dT%H:%M:%S", time.localtime(item.stat().st_mtime)
+                    ),
+                    atime=time.strftime(
+                        "%Y-%m-%dT%H:%M:%S", time.localtime(item.stat().st_atime)
+                    ),
+                    size=item.stat().st_size,
+                )
                 tmp_path.save()
 
                 tmp_coverpath = CoverPath(
