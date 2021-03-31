@@ -48,6 +48,7 @@ class NameApi_1:
             .join_from(Name, FilePath)
             .join_from(Name, CoverPath)
             .where((Name.id >= start) & (Name.id <= end))
+            .order_by(FilePath.ctime.desc())
             .dicts()
         )
 
