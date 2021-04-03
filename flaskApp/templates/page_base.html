@@ -39,6 +39,7 @@
     <link rel="stylesheet" href="{{url_for('static',filename='./layui/css/layui.css')}}">
 
     <script src="{{url_for('static',filename='./layui/layui.all.js')}}"></script>
+    <link rel="stylesheet" href="{{url_for('static',filename='./css/page_base.css')}}">
 
     <!-- <script language="JavaScript" type="text/javascript" src="{{url_for('static',filename='jquery-3.3.1.js')}}"></script>
 
@@ -52,127 +53,7 @@
 
     <!-- //设置页面宽度等于设备宽度，并且不可以放大  -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <style>
-        body {
-            background-color: aliceblue;
-            width: 100%;
-        }
 
-
-
-
-        .card_div {
-            margin: 10px 10px 30px 10px;
-            /* padding: 3px 3px 3px 3px; */
-            width: 400px;
-
-            background-color: white;
-            box-shadow: 0px 0px 3px 0px black
-        }
-
-        .pic_div {}
-
-        .name_div {
-            height: 50px;
-            text-overflow: ellipsis;
-            overflow: scroll;
-            display: block;
-            margin: 2px;
-            height: 70px;
-        }
-
-        .name {
-            padding-top: 5px;
-            font-size: 20px;
-            text-align: center;
-        }
-
-
-        .tag_div {
-            height: 50px;
-        }
-
-        .action_div {
-            height: 50px;
-        }
-
-        .pictures {}
-
-        .searchBox {
-
-            height: 50px;
-            width: 100px;
-
-            margin: 5px 10px 5px 10px;
-            padding: 2px 4px 2px 4px;
-            font-size: 20px;
-        }
-
-        .static_top {
-            position: fixed;
-            top: 0px;
-            width: 100%;
-        }
-
-        .place_div {
-            height: 150px;
-        }
-
-        /* xiao */
-        @media screen and (max-width: 800px) {
-            .gl-main {
-                display: inline-block;
-                width: 100%;
-            }
-
-            .pictures {
-                text-align: center;
-                margin: 0 auto;
-            }
-
-            .card_div {
-                display: inline-block;
-            }
-
-
-        }
-
-        @media screen and (min-width: 800px) and (max-width : 1300px) {
-            .gl-main {
-                display: inline-block;
-                width: 100%;
-            }
-
-            .pictures {
-                width: 900px;
-                margin: 0 auto;
-            }
-
-            .card_div {
-                display: inline-table;
-            }
-
-
-        }
-
-        /* da */
-        @media screen and (min-width: 1300px) {
-            .gl-main {
-                width: 1500px;
-                margin: 10px auto;
-            }
-
-            .card_div {
-                display: inline-table;
-            }
-
-            .pictures {
-                width: 1300px;
-                margin: 0 auto;
-            }
-
-        }
-    </style>
 
     <script>
         var navito = (url) => {

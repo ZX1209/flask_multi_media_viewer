@@ -1,0 +1,119 @@
+body {
+    background-color: aliceblue;
+    width: 100%;
+}
+
+
+
+
+.card_div {
+    margin: 8px 8px 24px 8px;
+    /* padding: 3px 3px 3px 3px; */
+    width: 400px;
+
+    background-color: white;
+    box-shadow: 0px 0px 3px 0px black
+}
+
+.pic_div {}
+
+.name_div {
+    height: 40px;
+    text-overflow: ellipsis;
+    overflow:visible;
+    display: block;
+    margin: 8px;
+    height: 80px;
+}
+
+.name {
+    padding-top: 8px;
+    font-size: 24px;
+    text-align: center;
+}
+
+
+.tag_div {
+    height: 40px;
+}
+
+.action_div {
+    height: 40px;
+}
+
+.pictures {}
+
+.searchBox {
+
+    height: 32px;
+    width: 88px;
+
+    margin: 8px 8px 8px 8px;
+    padding: 8px 8px 8px 8px;
+    font-size: 24px;
+}
+
+.static_top {
+    position: fixed;
+    top: 0px;
+    width: 100%;
+}
+
+.place_div {
+    height: 160px;
+}
+
+/* xiao */
+@media screen and (max-width: 800px) {
+    .gl-main {
+        display: inline-block;
+        width: 100%;
+    }
+
+    .pictures {
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .card_div {
+        display: inline-block;
+    }
+
+
+}
+
+@media screen and (min-width: 800px) and (max-width : 1300px) {
+    .gl-main {
+        display: inline-block;
+        width: 100%;
+    }
+
+    .pictures {
+        width: 900px;
+        margin: 0 auto;
+    }
+
+    .card_div {
+        display: inline-table;
+    }
+
+
+}
+
+/* da */
+@media screen and (min-width: 1300px) {
+    .gl-main {
+        width: 1500px;
+        margin: 8px auto;
+    }
+
+    .card_div {
+        display: inline-table;
+    }
+
+    .pictures {
+        width: 1300px;
+        margin: 0 auto;
+    }
+
+}
