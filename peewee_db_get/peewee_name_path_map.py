@@ -15,7 +15,7 @@ log.basicConfig(level=log.DEBUG)
 needupdate = True
 
 
-videopath = Path("../upside/tmp/pornhub")
+videopath = Path("../upside")
 coverpath = Path("../covers")
 
 
