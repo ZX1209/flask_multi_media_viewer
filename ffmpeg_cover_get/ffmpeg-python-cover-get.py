@@ -17,6 +17,26 @@ coverpath = Path("../covers")
 filelist = []
 cmdlist = []
 
+need_update = True
+
+
+def get_video_seconds(filename):
+    result = subprocess.run(
+        [
+            "ffprobe",
+            "-v",
+            "error",
+            "-show_entries",
+            "format=duration",
+            "-of",
+            "default=noprint_wrappers=1:nokey=1",
+            filename,
+        ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+    return float(result.stdout)
+
 
 # data gen
 def gen_video_cover(rootPath):
@@ -29,7 +49,7 @@ def gen_video_cover(rootPath):
 
             elif item.is_file() and item.suffix in [".mp4", ".mkv", ".avi"]:
                 pic_file_path = coverpath / (str(item.stem) + ".jpg")
-                if pic_file_path.exists():  # todo: update all setting
+                if not need_update and pic_file_path.exists():  # todo: update all setting
                     pass
                 else:
                     filelist.append(str(item))
@@ -37,7 +57,7 @@ def gen_video_cover(rootPath):
                         [
                             "ffmpeg",
                             "-ss",
-                            "00:00:10.000",
+                            str(get_video_seconds(item) * 0.6),
                             "-y",
                             "-i",
                             str(item),
@@ -49,6 +69,7 @@ def gen_video_cover(rootPath):
                             "-vcodec",
                             "mjpeg",
                             str(coverpath / (str(item.stem) + ".jpg")),
+                            "-nostdin",
                         ]
                     )
         except:
@@ -75,7 +96,7 @@ if __name__ == "__main__":
     procs = []
     for cmd in cmdlist:
         print(f"process {cmd}")
-        procs.append(subprocess.Popen(cmd, stdout=subprocess.PIPE))
+        procs.append(subprocess.Popen(cmd))
 
         ## for memory
         processCount += 1
