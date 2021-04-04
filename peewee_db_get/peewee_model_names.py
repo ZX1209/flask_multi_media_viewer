@@ -77,8 +77,11 @@ def import_tag_data(filepath):
     print(importData)
 
 
+tagname = Tag.names.get_through_model()
+
+
 def init_db():
-    # export_tag_data(tagDataFilePath)
+    export_tag_data(tagDataFilePath)
 
     Name.drop_table()
     Name.create_table()
@@ -92,6 +95,5 @@ def init_db():
     Tag.drop_table()
     Tag.create_table()
 
-    tagname = Tag.names.get_through_model()
     tagname.drop_table()
     tagname.create_table()

@@ -6,4 +6,4 @@ from peewee_name_path_map import gen_data
 if __name__ == "__main__":
     init_db()
     gen_data()
-    # import_tag_data(tagDataFilePath)
+    import_tag_data(tagDataFilePath)

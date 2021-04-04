@@ -1,4 +1,5 @@
-from peewee_model_names import Name, FilePath, CoverPath, Tag
+from peewee import JOIN
+from peewee_model_names import Name, FilePath, CoverPath, Tag, tagname
 
 
 def peewee_model_to_dict_string(class_variable):
@@ -20,7 +21,7 @@ class NameApi_1:
         return self.nameCount
 
     def set_name_tag(self, name_id, tag_name):
-        tmp_tag, _ = Tag.get_or_create(tagname="tag")
+        tmp_tag, _ = Tag.get_or_create(tagname=tag_name)
         tmp_tag.save()
 
         tmp_tag.names.add(Name.get(Name.id == name_id))
@@ -44,13 +45,37 @@ class NameApi_1:
             end = self.nameCount
 
         return list(
-            Name.select(Name, FilePath, CoverPath)
+            Name.select(Name, FilePath, CoverPath, Name.tags)
             .join_from(Name, FilePath)
             .join_from(Name, CoverPath)
             .where((Name.id >= start) & (Name.id <= end))
             .order_by(FilePath.ctime.desc())
             .dicts()
         )
+
+    def get_items2(self, start=1, end=None):
+        # dont do so much check now
+        # end set
+        if end is None:
+            end = self.nameCount
+        elif end > self.nameCount:
+            end = self.nameCount
+        data = []
+        for name in (
+            Name.select()
+            .join_from(Name, FilePath)
+            .where((Name.id >= start) & (Name.id <= end))
+            .order_by(FilePath.ctime.desc())
+        ):
+            tmp_d = {
+                "name_id": name.id,
+                "name": name.name,
+                "filepath": name.filepath,
+                "tags": list(name.tags.dicts()),
+            }
+            data.append(tmp_d)
+
+        return data
 
     def get_all_name(self):
         return [peewee_model_to_dict_string(i) for i in Name.select(Name.name)]
