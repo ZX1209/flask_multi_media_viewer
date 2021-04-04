@@ -1,3 +1,27 @@
+
+.hide_cls{
+    display: none;
+}
+
+
+.tag_div{
+    position: relative;
+}
+
+.add-btn{
+    position: absolute;
+    right: 8px;
+}
+/* div margin */
+.action_div,.tag_div{
+    margin: 8px;
+}
+
+.add_tag_btn{
+    width: 32px;
+    height: 24px;
+}
+
 body {
     background-color: aliceblue;
     width: 100%;
@@ -20,7 +44,7 @@ body {
 .name_div {
     height: 40px;
     text-overflow: ellipsis;
-    overflow:visible;
+    overflow:overlay;
     display: block;
     margin: 8px;
     height: 80px;
@@ -57,6 +81,7 @@ body {
     position: fixed;
     top: 0px;
     width: 100%;
+    z-index: 99;
 }
 
 .place_div {

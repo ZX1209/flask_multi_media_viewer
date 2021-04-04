@@ -10,20 +10,42 @@
     </div>
     <div class="tag_div">
 
-    </div>
-
-    <div class="action_div">
-
         <span class="layui-breadcrumb" lay-separator="|">
-            <a href="">娱乐</a>
-            <a href="">八卦</a>
-            <a href="">体育</a>
-            <a href="">搞笑</a>
-            <a href="">视频</a>
-            <a href="">游戏</a>
-            <a href="">综艺</a>
+            {% for tag in item.tags %}
+            <button type="button" class="layui-btn layui-btn-sm layui-btn-radius layui-btn-primary">{{ tag.tagname
+                }}</button>
+
+            {% endfor %}
+
         </span>
+        <button type="button" class="layui-btn layui-btn-radius layui-btn-danger add-btn"
+            onclick="toggle_hidden('{{ item.name_id }}_tag_input_div');">+</button>
     </div>
+    <div class="tag_input_div hide_cls" id="{{ item.name_id }}_tag_input_div">
+
+        <input type="text" id="{{ item.name_id }}addtag" required lay-verify="required" placeholder="请输入标题"
+            autocomplete="off" class="layui-input">
+
+        <button type="button" class="layui-btn layui-btn-radius layui-btn-danger"
+            onclick="addtag({{ item.name_id }},document.getElementById('{{ item.name_id }}addtag').value);">添加</button>
+    </div>
+
+    <!-- <div class="action_div">
+        <div class="layui-btn-group">
+            <button type="button" class="layui-btn layui-btn-sm" onclick="">
+                <i class="layui-icon">添加标签</i>
+            </button>
+            <button type="button" class="layui-btn layui-btn-sm">
+                <i class="layui-icon">&#xe642;</i>
+            </button>
+            <button type="button" class="layui-btn layui-btn-sm">
+                <i class="layui-icon">&#xe640;</i>
+            </button>
+            <button type="button" class="layui-btn layui-btn-sm">
+                <i class="layui-icon">&#xe602;</i>
+            </button>
+        </div>
+    </div> -->
 
 </div>
 {%- endmacro %}
@@ -56,6 +78,34 @@
 
 
     <script>
+        function toggle_hidden(id) {
+            var classVal = document.getElementById(id).getAttribute("class");
+            if (classVal.includes("hide_cls")) {
+                classVal = classVal.replace("hide_cls", "");
+
+            }
+            else {
+                classVal = classVal.concat("hide_cls");
+
+            }
+            document.getElementById(id).setAttribute("class", classVal);
+
+        }
+        function addtag(name_id, tag_name) {
+            $.ajax({
+                url: "/api/v1/add_tag",
+                type: "post",
+                data: { "name_id": name_id, "tag_name": tag_name },
+                dataType: "json",
+                success: function (data) {
+                    console.log(data)
+                }
+
+            })
+        }
+
+
+
         var navito = (url) => {
             window.open("http://" + window.location.hostname + ":8000/" + url, "videos");
 
@@ -135,8 +185,10 @@
         element.init();
 
         var layer = layui.layer;
+        var $;
 
-        layui.use('flow', function () {
+        layui.use(['flow', 'jquery'], function () {
+            $ = layui.jquery;
             var flow = layui.flow;
             //当你执行这样一个方法时，即对页面中的全部带有lay-src的img元素开启了懒加载（当然你也可以指定相关img）
             flow.lazyimg();

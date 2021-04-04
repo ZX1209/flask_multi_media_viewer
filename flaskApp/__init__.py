@@ -81,7 +81,7 @@ def homepage():
 @app.route("/all_video_view")
 def all_video_view():
     end = 500
-    videoItems = api.get_items()
+    videoItems = api.get_items2()
 
     return render_template(
         "name_view.html", videoItems=videoItems, img_base_url="/static/covers"
@@ -127,17 +127,10 @@ def getRes(var):
 
 
 # tag: tags
-@app.route("/api/v1/add_tag")
-def add_tag(name=None, tag=None):
-    if name is None:
-        name = request.args["name"]
-    if tag is None:
-        tag = request.args["tag"]
-
-    redis.sadd("tags", tag)
-    redis.rpush(tag + "_names", name)
-
-    return 1
+@app.route("/api/v1/add_tag", methods=["POST"])
+def add_tag(name_id=None, tag_name=None):
+    api.set_name_tag(int(request.form["name_id"]), request.form["tag_name"])
+    return "success"
 
 
 @app.route("/api/v1/name_tags")
