@@ -1,18 +1,19 @@
 ## todo
-- [ ] 构建数据库
+- [x] 构建数据库
     - [x] name path map
     - [x] name coverpath map
     - [x] ffmpeg gen 
     - [x] file time record
-- [ ] 视频服务器
+- [x] 视频服务器
     - [x] RangeHTTPServer in ./
-- [ ] 数据生成
-  - [ ] 封面数据生成,相对截图
+- [x] 数据生成
+  - [x] 封面数据生成,相对截图
 - [ ] 构建页面
-- [ ] 路径问题
-- [ ] 标签系统构建
-  - [ ] 数据结构
-  - [ ] 数据存储,更新,维护
+- [x] 路径问题
+  - [x] 工作目录,相对路径
+- [x] 标签系统构建
+  - [x] 数据结构
+  - [x] 数据存储,更新,维护
 
 ## 文件组织结构
 * ffmpeg_cover_get
