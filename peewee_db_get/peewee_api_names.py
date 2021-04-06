@@ -70,7 +70,7 @@ class NameApi_1:
             tmp_d = {
                 "name_id": name.id,
                 "name": name.name,
-                "filepath": name.filepath.get().filepath,
+                "filepath": name.filepath.filepath,
                 "tags": list(name.tags.dicts()),
             }
             data.append(tmp_d)
