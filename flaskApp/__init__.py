@@ -99,7 +99,7 @@ def page_view(page=1):
 
     log.debug((start, end))
 
-    videoItems = api.get_items(start, end)
+    videoItems = api.get_items2(start, end)
 
     return render_template(
         "pages_view.html",
