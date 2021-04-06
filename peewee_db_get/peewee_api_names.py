@@ -62,7 +62,7 @@ class NameApi_1:
             end = self.nameCount
         data = []
         for name in (
-            Name.select()
+            Name.select(Name, FilePath)
             .join_from(Name, FilePath)
             .where((Name.id >= start) & (Name.id <= end))
             .order_by(FilePath.ctime.desc())
@@ -70,7 +70,7 @@ class NameApi_1:
             tmp_d = {
                 "name_id": name.id,
                 "name": name.name,
-                "filepath": name.filepath,
+                "filepath": name.filepath.get().filepath,
                 "tags": list(name.tags.dicts()),
             }
             data.append(tmp_d)
