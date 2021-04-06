@@ -3,12 +3,21 @@
 import peewee
 import datetime
 import json
+from pathlib import Path
+import os
 
-db = peewee.SqliteDatabase(
-    "/home/gl/Projects/flask_multi_media_viewer/peewee_db_get/names.db"
-)
+file_path = Path(__file__).absolute()
+file_dir_path = file_path.parent
+original_working_path = Path("./").absolute()
 
-tagDataFilePath = "/home/gl/Projects/flask_multi_media_viewer/peewee_db_get/tagdata.json"
+
+db_path = file_dir_path / "names.db"
+db_path.resolve()
+
+
+db = peewee.SqliteDatabase(str(db_path))
+
+tagDataFilePath = file_dir_path / "./tagdata.json"
 
 
 class Name(peewee.Model):
@@ -72,7 +81,8 @@ def import_tag_data(filepath):
         tmp_tag.save()
 
         for name in importData[tagname]:
-            tmp_tag.names.add(Name.get(Name.name == name))
+            tmp_n, _ = Name.get_or_create(name=name)
+            tmp_tag.names.add(tmp_n)
 
     print(importData)
 
