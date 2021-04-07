@@ -66,6 +66,50 @@ def record_name_path(rootPath):
             continue
 
 
+# data update
+def update_name_path(rootPath):
+    """record_name_path"""
+    global filelist, cmdlist
+    for item in rootPath.iterdir():
+        try:
+            if item.is_dir():
+                record_name_path(item)
+
+            elif item.is_file() and item.suffix in [".mp4", ".mkv"]:
+
+                tmp_name = Name.get_or_none(name=item.stem)
+                if tmp_name:
+                    tmp_name.save()
+
+                    tmp_path = FilePath(
+                        filepath=item,
+                        f_name=tmp_name,
+                        ctime=time.strftime(
+                            "%Y-%m-%dT%H:%M:%S", time.localtime(item.stat().st_ctime)
+                        ),
+                        mtime=time.strftime(
+                            "%Y-%m-%dT%H:%M:%S", time.localtime(item.stat().st_mtime)
+                        ),
+                        atime=time.strftime(
+                            "%Y-%m-%dT%H:%M:%S", time.localtime(item.stat().st_atime)
+                        ),
+                        size=item.stat().st_size,
+                    )
+                    tmp_path.save()
+
+                    tmp_coverpath = CoverPath(
+                        coverpath=coverpath / (str(item.stem) + ".jpg"), f_name=tmp_name
+                    )
+                    tmp_coverpath.save()
+
+                    log.debug(("add", item.stem))
+                else:
+                    pass
+
+        except:
+            continue
+
+
 def gen_data():
     """gen_data"""
     global videopath, coverpath
@@ -87,5 +131,26 @@ def gen_data():
     record_name_path(videopath)
 
 
-if __name__ == "__main__":
-    gen_data()
+def update_data():
+    """update_data"""
+    global videopath, coverpath
+    # video path args
+    # cover path
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--videopath")
+    parser.add_argument("--coverpath")
+    args = parser.parse_args()
+
+    # can use gen?
+    if args.videopath:
+        videopath = Path(args.videopath)
+
+    if args.coverpath:
+        coverpath = Path(args.coverpath)
+    # gen data
+
+    update_name_path(videopath)
+
+
+# if __name__ == "__main__":
+#     gen_data()
