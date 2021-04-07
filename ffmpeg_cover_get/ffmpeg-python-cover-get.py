@@ -6,18 +6,25 @@ from pathlib import Path
 import subprocess
 
 import logging as log
+from pathlib import Path
+import os
+
+file_path = Path(__file__).absolute()
+file_dir_path = file_path.parent
+original_working_path = Path("./").absolute()
+
 
 log.basicConfig(level=log.INFO)
 
 
-videopath = Path("../upside")
-coverpath = Path("../covers")
+videopath = file_dir_path / Path("../upside")
+coverpath = file_dir_path / Path("../covers")
 
 
 filelist = []
 cmdlist = []
 
-need_update = True
+need_regenerate = False
 
 
 def get_video_seconds(filename):
@@ -49,7 +56,9 @@ def gen_video_cover(rootPath):
 
             elif item.is_file() and item.suffix in [".mp4", ".mkv", ".avi"]:
                 pic_file_path = coverpath / (str(item.stem) + ".jpg")
-                if not need_update and pic_file_path.exists():  # todo: update all setting
+                if (
+                    not need_regenerate and pic_file_path.exists()
+                ):  # todo: update all setting
                     pass
                 else:
                     filelist.append(str(item))
