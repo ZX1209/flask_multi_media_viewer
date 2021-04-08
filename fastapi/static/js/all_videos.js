@@ -24,9 +24,9 @@ function addtag(name_id, tag_name) {
     })
 }
 
-function outerlink(path) {
-    return "http://" + window.location.hostname + ":8000/" + path,
-}
+function poster(name) {
+    return "http://" + window.location.hostname + ":8000/" + name + ".jpg";
+};
 
 
 
