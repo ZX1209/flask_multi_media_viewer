@@ -1,4 +1,6 @@
 ## todo
+- [] fastapi 构建
+- [] vue 构建
 - [x] 构建数据库
     - [x] name path map
     - [x] name coverpath map
@@ -14,6 +16,7 @@
 - [x] 标签系统构建
   - [x] 数据结构
   - [x] 数据存储,更新,维护
+- [ ] vue 学习 使用 整合
 
 ## 文件组织结构
 * ffmpeg_cover_get
