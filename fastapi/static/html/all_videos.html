@@ -1,0 +1,82 @@
+<html>
+
+<head>
+    <!-- <script src="/static/js/vue.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/static/js/all_videos.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        {{ message }}
+    </div>
+
+    <div id="videoItemsDiv">
+
+        <ol>
+            <li v-for="item in videoItems">
+                <div class="card_div">
+                    <div class="pic_div">
+                        <a onclick="navito( '{{ item.filepath }}' );" target="videoplay">
+                            <img class="poster" lay-src="{{img_base_url}}/{{ item.name }}.jpg" width="400px"
+                                height="225px">
+                        </a>
+                    </div>
+                    <div class="name_div">
+                        <h1 class="name">{{ item.name }}</h1>
+                    </div>
+                    <div class="tag_div">
+
+                        <span class="layui-breadcrumb" lay-separator="|">
+                            {% for tag in item.tags %}
+                            <button type="button" class="layui-btn layui-btn-sm layui-btn-radius layui-btn-primary">{{
+                                tag.tagname
+                                }}</button>
+
+                            {% endfor %}
+
+                        </span>
+                        <button type="button" class="layui-btn layui-btn-radius layui-btn-danger add-btn"
+                            onclick="toggle_hidden('{{ item.name_id }}_tag_input_div');">+</button>
+                    </div>
+                    <div class="tag_input_div hide_cls" id="{{ item.name_id }}_tag_input_div">
+
+                        <input type="text" id="{{ item.name_id }}addtag" required lay-verify="required"
+                            placeholder="请输入标题" autocomplete="off" class="layui-input">
+
+                        <button type="button" class="layui-btn layui-btn-radius layui-btn-danger"
+                            onclick="addtag({{ item.name_id }},document.getElementById('{{ item.name_id }}addtag').value);">添加</button>
+                    </div>
+
+            </li>
+        </ol>
+
+    </div>
+
+    <script>
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue!!!'
+            }
+        })
+
+        var app2 = new Vue({
+            el: "#videoItemsDiv",
+            data() {
+                return {
+                    videoItems: null
+                }
+            },
+            mounted() {
+                axios.get("/api/all_videoItems").then(response => this.videoItems = response)
+            }
+        })
+
+    </script>
+</body>
+
+</html>
