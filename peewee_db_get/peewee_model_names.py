@@ -81,8 +81,11 @@ def import_tag_data(filepath):
         tmp_tag.save()
 
         for name in importData[tagname]:
-            tmp_n, _ = Name.get_or_create(name=name)
-            tmp_tag.names.add(tmp_n)
+            try:
+                tmp_n, _ = Name.get_or_create(name=name)
+                tmp_tag.names.add(tmp_n)
+            finally:
+                pass
 
     print(importData)
 
