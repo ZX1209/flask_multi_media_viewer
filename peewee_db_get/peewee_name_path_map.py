@@ -78,7 +78,7 @@ def update_name_path(rootPath):
             elif item.is_file() and item.suffix in [".mp4", ".mkv"]:
 
                 tmp_name = Name.get_or_none(name=item.stem)
-                if tmp_name:
+                if tmp_name is None:
                     tmp_name.save()
 
                     tmp_path = FilePath(

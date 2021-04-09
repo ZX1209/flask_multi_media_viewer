@@ -1,6 +1,8 @@
 covers/
 covers2/
 peewee_db_get/names.db
+peewee_db_get/tagdata.json
+*.ipynb
 
 
 # Byte-compiled / optimized / DLL files
