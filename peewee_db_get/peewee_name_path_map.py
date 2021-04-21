@@ -73,12 +73,12 @@ def update_name_path(rootPath):
     for item in rootPath.iterdir():
         try:
             if item.is_dir():
-                record_name_path(item)
+                update_name_path(item)
 
             elif item.is_file() and item.suffix in [".mp4", ".mkv"]:
 
-                tmp_name = Name.get_or_none(name=item.stem)
-                if tmp_name is None:
+                tmp_name, name_created = Name.get_or_create(name=item.stem)
+                if name_created:
                     tmp_name.save()
 
                     tmp_path = FilePath(
